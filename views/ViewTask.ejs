@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awesome 6 (Latest) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <style>
+        .office {
+            background-color: #DB2D43 !important;
+        }
+
+        .personal {
+            background-color: #FFBF00 !important;
+        }
+
+        .family {
+            background-color: green !important;
+        }
+
+        .friends {
+            background-color: #72A0C1 !important;
+        }
+
+        .other {
+            background-color: gray !important;
+        }
+
+        .Completed {
+            background-color: white !important;
+            color: black !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <form>
+                    <input type="text" name="search" value="<%=search%>" class="rounded p-1">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                <%if(sort==1){%>
+                    <a href="/?sort=-1" class="btn btn-primary">Sort</a>
+                    <%}else{%>
+                        <a href="/?sort=1" class="btn btn-primary">Sort</a>
+                        <%}%>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+
+        <div class="row">
+            <% Task.map((item,i)=>{%>
+                <div class="col-6">
+                    <div class="bg-dark text-light p-3 my-3 rounded position-relative <%if(item.status == false){%><%='Completed'%><%}else{%><%=item.task_type%><%}%>"
+                        style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <a href="/delete/?id=<%=item.id%>"
+                            class="text-light bg-danger p-1 px-2 fw-bold rounded-circle position-absolute"
+                            style="top: -10px; left: -10px;">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        <h3>
+                            <%=item.taskname%>
+                        </h3>
+                        <p class="text-end">
+                            ~By <%=item.username%>
+                        </p>
+                        <div class="d-flex bg-light text-dark">
+                            <p class="w-50 text-center my-auto">
+                                <%=item.Date%>
+                            </p>
+                            <%if(item.status){%>
+                                <a href="/status?id=<%=item.id%>&status=false"
+                                    class="w-50 btn btn-success rounded-0">Pending</a>
+                                <%}else{%>
+                                    <a href="/status?id=<%=item.id%>&status=true"
+                                        class="w-50 btn btn-danger rounded-0">Completed</a>
+                                    <%}%>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+                    <div class="col-6">
+                        <a href="/addtask">
+                            <div class="bg-dark text-light text-center py-4 my-3">
+                                <i class="fa-solid fa-plus" style="font-size: 65px;"></i>
+                                <h5 class="mt-2">ADD</h5>
+                            </div>
+                        </a>
+                    </div>
+        </div>
+        <div class="mt-5 text-center">
+
+            <%if(0 < page){%>
+                <a href="?page=<%=parseInt(page)-1%>&search=<%=search%>" class="btn btn-primary">prev</a>
+                <%}%>
+
+                    <a href="?page=<%=parseInt(page)%>&search=<%=search%>" class="btn btn-primary">
+                        <%=parseInt(page)+1%>
+                    </a>
+
+                    <%if(Total_Page-1> page){%>
+                        <a href="?page=<%=parseInt(page)+1%>&search=<%=search%>" class="btn btn-primary">next</a>
+                        <%}%>
+        </div>
+    </div>
+</body>
+
+</html>
